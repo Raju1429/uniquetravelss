@@ -80,54 +80,7 @@
                 <h3 class="text-white" id="contactus text-center">Contact Us</h3>
             </div>
             <div class="card-body bg-light">
-                <?php
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        $name = $_POST['name'];
-                        $number = $_POST['number'];
-                        $email = $_POST['email'];
-                        $message = $_POST['message'];
-                        
-                        $file_name = $_FILES['resume']['name'];
-                        $file_tmp = $_FILES['resume']['tmp_name'];
-                    
-                        $to = "rajuleo468@gmail.com"; // Your email address
-                        $subject = "New contact form submission";
-                        $message = "Name: $name\nNumber: $number\nEmail: $email\nMessage: $message";
-                        
-                        $headers = "From: $email";
-
-                        $boundary = md5(rand());
-                        $headers .= "\r\nMIME-Version: 1.0\r\n";
-                        $headers .= "Content-Type: multipart/mixed; boundary = $boundary\r\n\r\n";
-                        $headers .= "This is a MIME encoded message.\r\n\r\n";
-                        
-                        $body = "--$boundary\r\n";
-                        $body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
-                        $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-                        $body .= chunk_split(base64_encode($message));
-                        
-                        $file = fopen($file_tmp, 'rb');
-                        $data = fread($file, filesize($file_tmp));
-                        fclose($file);
-                        $file = chunk_split(base64_encode($data));
-                        
-                        $body .= "--$boundary\r\n";
-                        $body .="Content-Type: application/octet-stream; name=\"$file_name\"\r\n";
-                        $body .="Content-Disposition: attachment; filename=\"$file_name\"\r\n";
-                        $body .="Content-Transfer-Encoding: base64\r\n";
-                        $body .="X-Attachment-Id: ".rand(1000,99999)."\r\n\r\n";
-                        $body .= $file;
-                        $body .= "--$boundary--\r\n";
-                        
-                        mail($to, $subject, $body, $headers);
-
-                        echo '<div class="alert alert-success" role="alert">
-                                Your message has been sent successfully!
-                            </div>';
-                    }
-                ?>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST"
-                    enctype="multipart/form-data">
+                <form action="https://formsubmit.co/rajleo468@gmail.com" method="POST" enctype="multipart/form-data">
                     <label for="name">Name</label>
                     <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
                     <br>
@@ -140,8 +93,8 @@
                     <label for="message">Query Regarding Battery pack ?</label>
                     <input type="text" name="message" id="message" class="form-control" required>
                     <br>
-                    <label for="resume">Upload Resume (PDF only)</label>
-                    <input type="file" name="resume" id="resume" class="form-control" accept=".pdf" required>
+                    <label for="resume">Upload Resume</label>
+                    <input type="file" name="resume" id="resume" class="form-control" accept=".pdf,.doc,.docx" required>
                     <br>
                     <input type="submit" value="Compose" style="background-color: teal; width:100%; height: 45px;">
                     <br>
